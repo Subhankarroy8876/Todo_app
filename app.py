@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd 
 from db_fxns import * 
 import streamlit.components.v1 as stc
-
+#from utils import beautify
 
 
 # Data Viz Pkgs
@@ -10,7 +10,6 @@ import plotly.express as px
 
 
 HTML_BANNER = """
-    <div style="background-color:#464e5f;padding:10px;border-radius:10px">
     <h1 style="color:white;text-align:center;">Have ToDo </h1>
 	<p>
 	<i class="fa-solid fa
@@ -20,10 +19,10 @@ HTML_BANNER = """
 
 def main():
 	st.set_page_config(layout="wide")
-	stc.html(HTML_BANNER)
+	#stc.html(HTML_BANNER)
 
 
-	menu = ["Create","Read","Update","Delete","About"]
+	menu = ["Create","Read","Update","Delete"]
 	choice = st.sidebar.selectbox("Menu",menu)
 	create_table()
 
@@ -45,33 +44,50 @@ def main():
 			
 
 		if st.button("Add Task"):
-			add_data(task,task_status,task_due_date,priority)
-			#st.success("Added ::{} ::To Task".format(task))
-			st.balloons()
+			if task=="":
+				st.write('Please enter task name!!')
+			else:
+				add_data(task,task_status,task_due_date,priority)
+				#st.success("Added ::{} ::To Task".format(task))
+				st.balloons()
 
 		result = view_all_data()
 		# st.write(result)
 		clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
-		st.dataframe(clean_df)
+		left, middle, right = st.columns((2,3,2))
+		with middle:
+			#clean_df=beautify(clean_df)
+			st.dataframe(clean_df)
+
+
+
 
 	elif choice == "Read":
 		result = view_all_data()
 		clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
-		col1,col2 = st.columns(2)
-		with col1:
-			task_df = clean_df['Status'].value_counts().to_frame()
-			# st.dataframe(task_df)
-			task_df = task_df.reset_index()
-			st.dataframe(task_df)
+		col1,col2,col3,col4,col5,col6 = st.columns(6)
+		with col2:
+			
+				task_df = clean_df['Status'].value_counts().to_frame()
+				# st.dataframe(task_df)
+				task_df = task_df.reset_index()
+				st.dataframe(task_df)
+				
+		with col5:
+			
+				task_df_2 = clean_df['Priority'].value_counts().to_frame()
+				# st.dataframe(task_df)
+				task_df_2 = task_df_2.reset_index()
+				st.dataframe(task_df_2)
+
+		col_1,col_2=st.columns(2)
+		with col_1:
 			p1 = px.pie(task_df,names='index',values='Status')
 			st.plotly_chart(p1,use_container_width=True)
-		with col2:
-			task_df = clean_df['Priority'].value_counts().to_frame()
-			# st.dataframe(task_df)
-			task_df = task_df.reset_index()
-			st.dataframe(task_df)
-			p1 = px.pie(task_df,names='index',values='Priority')
+		with col_2:
+			p2 = px.pie(task_df_2,names='index',values='Priority')
 			st.plotly_chart(p1,use_container_width=True)
+
 
 
 	elif choice == "Update":
@@ -103,7 +119,7 @@ def main():
 
 			if st.button("Update Task"):
 				edit_task_data(new_task,new_task_status,new_task_due_date,task,task_status,task_due_date)
-				st.success("Updated ::{} ::To {}".format(task,new_task))
+				st.success("Updated :)")
 
 			with st.expander("View Updated Data"):
 				result = view_all_data()
@@ -131,12 +147,6 @@ def main():
 			# st.write(result)
 			clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 			st.dataframe(clean_df)
-
-	else:
-		st.subheader("About ToDo List App")
-		st.info("Built with Streamlit")
-		st.info("Jesus Saves @JCharisTech")
-		st.text("Jesse E.Agbe(JCharis)")
 
 
 if __name__ == '__main__':
