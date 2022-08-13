@@ -134,6 +134,9 @@ def main():
 			result = view_all_data()
 			clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 			st.dataframe(clean_df)
+			
+	else:
+		pass
 
 
 if __name__ == '__main__':
