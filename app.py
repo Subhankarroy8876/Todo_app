@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd 
-from db_fxns import * 
+from db_fxns import create_table,add_data,view_all_data,view_all_task_names,get_task,get_task_by_status,edit_task_data,delete_data
 import streamlit.components.v1 as stc
 #from utils import beautify
 
