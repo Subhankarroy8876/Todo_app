@@ -30,6 +30,7 @@ def get_task(task):
 def get_task_by_status(task_status):
 	c.execute('SELECT * FROM taskstable1 WHERE task_status="{}"'.format(task_status))
 	data = c.fetchall()
+	return data
 
 
 def edit_task_data(new_task,new_task_status,new_task_date,task,task_status,task_due_date):
