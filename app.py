@@ -136,7 +136,7 @@ def main():
 			st.dataframe(clean_df)
 			
 	else:
-		pass
+		print("Nothing selected")
 
 
 if __name__ == '__main__':
