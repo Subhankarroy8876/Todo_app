@@ -51,6 +51,7 @@ def main():
 		clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 		left, middle, right = st.columns((2,3,2))
 		with middle:
+			st.subheader("Your tasks")
 			st.dataframe(clean_df)
 
 
