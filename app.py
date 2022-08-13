@@ -8,7 +8,7 @@ import plotly.express as px
 
 
 HTML_BANNER = """
-    <h1 style="color:white;text-align:center;">Have ToDo </h1>
+    <h1 style="color:white;text-align:center;">Task Report </h1>
 	<p>
 	<i class="fa-solid fa
     </div>
@@ -57,7 +57,8 @@ def main():
 
 
 
-	elif choice == "Read":
+	elif choice == "Report":
+		stc.html(HTML_BANNER)
 		result = view_all_data()
 		clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 		col1,col2,col3,col4,col5,col6 = st.columns(6)
