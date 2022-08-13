@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd 
 from db_fxns import create_table,add_data,view_all_data,view_all_task_names,get_task,get_task_by_status,edit_task_data,delete_data
 import streamlit.components.v1 as stc
-#from utils import beautify
 
 
-# Data Viz Pkgs
 import plotly.express as px 
 
 
@@ -19,7 +17,6 @@ HTML_BANNER = """
 
 def main():
 	st.set_page_config(layout="wide")
-	#stc.html(HTML_BANNER)
 
 
 	menu = ["Create","Read","Update","Delete"]
@@ -48,15 +45,12 @@ def main():
 				st.write('Please enter task name!!')
 			else:
 				add_data(task,task_status,task_due_date,priority)
-				#st.success("Added ::{} ::To Task".format(task))
 				st.balloons()
 
 		result = view_all_data()
-		# st.write(result)
 		clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 		left, middle, right = st.columns((2,3,2))
 		with middle:
-			#clean_df=beautify(clean_df)
 			st.dataframe(clean_df)
 
 
@@ -69,14 +63,12 @@ def main():
 		with col2:
 			
 				task_df = clean_df['Status'].value_counts().to_frame()
-				# st.dataframe(task_df)
 				task_df = task_df.reset_index()
 				st.dataframe(task_df)
 				
 		with col5:
 			
 				task_df_2 = clean_df['Priority'].value_counts().to_frame()
-				# st.dataframe(task_df)
 				task_df_2 = task_df_2.reset_index()
 				st.dataframe(task_df_2)
 
@@ -86,7 +78,7 @@ def main():
 			st.plotly_chart(p1,use_container_width=True)
 		with col_2:
 			p2 = px.pie(task_df_2,names='index',values='Priority')
-			st.plotly_chart(p1,use_container_width=True)
+			st.plotly_chart(p2,use_container_width=True)
 
 
 
@@ -94,14 +86,12 @@ def main():
 		st.subheader("Edit Items")
 		with st.expander("Current Data"):
 			result = view_all_data()
-			# st.write(result)
 			clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 			st.dataframe(clean_df)
 
 		list_of_tasks = [i[0] for i in view_all_task_names()]
 		selected_task = st.selectbox("Task",list_of_tasks)
 		task_result = get_task(selected_task)
-		# st.write(task_result)
 
 		if task_result:
 			task = task_result[0][0]
@@ -123,7 +113,6 @@ def main():
 
 			with st.expander("View Updated Data"):
 				result = view_all_data()
-				# st.write(result)
 				clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 				st.dataframe(clean_df)
 
@@ -132,7 +121,6 @@ def main():
 		st.subheader("Delete")
 		with st.expander("View Data"):
 			result = view_all_data()
-			# st.write(result)
 			clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 			st.dataframe(clean_df)
 
@@ -144,7 +132,6 @@ def main():
 
 		with st.expander("Updated Data"):
 			result = view_all_data()
-			# st.write(result)
 			clean_df = pd.DataFrame(result,columns=["Task","Status","Date","Priority"])
 			st.dataframe(clean_df)
 
