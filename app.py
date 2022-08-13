@@ -19,7 +19,7 @@ def main():
 	st.set_page_config(layout="wide")
 
 
-	menu = ["Create","Read","Update","Delete"]
+	menu = ["Create","Report","Update","Delete"]
 	choice = st.sidebar.selectbox("Menu",menu)
 	create_table()
 
